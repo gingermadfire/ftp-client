@@ -1,5 +1,12 @@
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        String login = args[0];
+        String password = args[1];
+        String address = args[2];
+        String port = args[3];
+
+
     }
 }
