@@ -1,27 +1,28 @@
 package Service;
 
-import Persistense.Student;
 import Connection.FTPServerConnection;
-import Parser.StudentsJSONParser;
-
 import Exception.StudentNotFoundException;
 import Exception.StudentParseException;
 
-import java.io.IOException;
-import java.io.InputStream;
+import Parser.JSONParser;
+import Persistense.Student;
+
+import java.io.*;
+import java.util.Comparator;
 import java.util.List;
 
 public class StudentService {
 
     private List<Student> students;
+    private final FTPServerConnection connection;
 
-    public StudentService(String login, String password, String IPAddress,String endPoint) {
-        FTPServerConnection connection = new FTPServerConnection();
+    public StudentService(String login, String password, String IPAddress, String endPoint) {
+        connection = new FTPServerConnection();
         connection.connect(login, password, IPAddress, endPoint);
 
         try {
             InputStream reader = connection.findInputStream();
-            students = new StudentsJSONParser().parse(reader);
+            students = new JSONParser().parse(reader);
             reader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -30,6 +31,12 @@ public class StudentService {
 
     public List<Student> findAll() throws StudentParseException {
         if (!students.isEmpty()) {
+            students.sort(new Comparator<Student>() {
+                @Override
+                public int compare(Student o1, Student o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
             return students;
         } else {
          throw new StudentParseException("Не удалось найти ни одного пользователя");
@@ -46,11 +53,38 @@ public class StudentService {
         throw new StudentNotFoundException(String.format("Пользователь с данным id: %d не найден.", id));
     }
 
-    public void save(Student student) {
+    public void save(String name) {
+        long id = students.get(students.size() - 1).getId() + 1;
+        Student student = new Student(id, name);
+        students.add(student);
+
+        try {
+            OutputStream outputStream = connection.findOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.write(JSONParser.parse(student));
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
     public void deleteById(long id) {
+        for (Student student: students) {
+            if (student.getId() == id) {
+                students.remove(student);
+                try {
+                    OutputStream outputStream = connection.findOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+                    writer.write(JSONParser.parse(student));
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+
+
+            }
+        }
 
     }
 }

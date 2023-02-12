@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class StudentsJSONParser{
+public class JSONParser {
 
     Student student;
 
@@ -31,5 +31,10 @@ public class StudentsJSONParser{
         return students;
     }
 
-
+    public static String parse(Student student) {
+        return "\n{\n"
+                + "\"id\": " + student.getId() + ",\n"
+                + "\"name\": \"" + student.getName() + "\"\n"
+                + "},";
+    }
 }

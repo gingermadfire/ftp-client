@@ -5,7 +5,7 @@ public class Main {
         String login = args[0];
         String password = args[1];
         String address = args[2];
-        String port = args[3];
+        String endPoint = "students";
 
 
     }
