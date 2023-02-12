@@ -2,7 +2,7 @@ package Persistense;
 
 public class Student {
 
-    private long id;
+    private final long id;
 
     private String name;
 
@@ -15,15 +15,16 @@ public class Student {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Студент по имени: " + name + "с id: " + id;
     }
 }

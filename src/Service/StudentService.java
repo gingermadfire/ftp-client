@@ -16,9 +16,9 @@ public class StudentService {
     private List<Student> students;
     private final FTPServerConnection connection;
 
-    public StudentService(String login, String password, String IPAddress, String endPoint) {
+    public StudentService(String login, String password, String ipAddress, String endPoint) {
         connection = new FTPServerConnection();
-        connection.connect(login, password, IPAddress, endPoint);
+        connection.connect(login, password, ipAddress, endPoint);
 
         try {
             InputStream reader = connection.findInputStream();
@@ -31,19 +31,14 @@ public class StudentService {
 
     public List<Student> findAll() throws StudentParseException {
         if (!students.isEmpty()) {
-            students.sort(new Comparator<Student>() {
-                @Override
-                public int compare(Student o1, Student o2) {
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
+            students.sort(Comparator.comparing(Student::getName));
             return students;
         } else {
          throw new StudentParseException("Не удалось найти ни одного пользователя");
         }
     }
 
-    public Student findById(long id) throws StudentParseException{
+    public Student findById(long id) throws StudentNotFoundException{
         for (Student student: students) {
             if (student.getId() == id) {
                 return student;
@@ -69,10 +64,12 @@ public class StudentService {
 
     }
 
-    public void deleteById(long id) {
+    public void deleteById(long id) throws StudentNotFoundException {
         for (Student student: students) {
             if (student.getId() == id) {
-                students.remove(student);
+                if (!students.remove(student)) {
+                    throw new StudentNotFoundException(String.format("Пользователь с данным id: %d не найден.", id));
+                }
                 try {
                     OutputStream outputStream = connection.findOutputStream();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
@@ -85,6 +82,7 @@ public class StudentService {
 
             }
         }
+
 
     }
 }

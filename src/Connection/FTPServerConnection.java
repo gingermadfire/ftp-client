@@ -9,9 +9,9 @@ public class FTPServerConnection implements ServerConnection{
      URLConnection connection;
 
      @Override
-     public void connect(String login, String password, String IPAddress,String endPoint) {
+     public void connect(String login, String password, String ipAddress,String endPoint) {
 
-          String path = String.format("ftp://%s:%s@%s/%s;type=i", login, password, IPAddress, endPoint);
+          String path = String.format("ftp://%s:%s@%s/%s;type=i", login, password, ipAddress, endPoint);
 
           try {
                connection = new URL(path).openConnection();
