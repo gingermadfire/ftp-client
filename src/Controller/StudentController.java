@@ -57,6 +57,7 @@ public class StudentController {
                 }
 
             } else if (scanner.nextLine().equals("5")) {
+                scanner.close();
                 System.out.println("Завершение программы");
                 System.exit(1);
 

@@ -8,6 +8,7 @@ public class FTPServerConnection implements ServerConnection{
 
      URLConnection connection;
 
+
      @Override
      public void connect(String login, String password, String ipAddress,String endPoint) {
 

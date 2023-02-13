@@ -14,10 +14,9 @@ import java.util.List;
 public class StudentService {
 
     private List<Student> students;
-    private final FTPServerConnection connection;
 
     public StudentService(String login, String password, String ipAddress, String endPoint) {
-        connection = new FTPServerConnection();
+        FTPServerConnection connection = new FTPServerConnection();
         connection.connect(login, password, ipAddress, endPoint);
 
         try {
@@ -34,12 +33,12 @@ public class StudentService {
             students.sort(Comparator.comparing(Student::getName));
             return students;
         } else {
-         throw new StudentParseException("Не удалось найти ни одного пользователя");
+            throw new StudentParseException("Не удалось найти ни одного пользователя");
         }
     }
 
-    public Student findById(long id) throws StudentNotFoundException{
-        for (Student student: students) {
+    public Student findById(long id) throws StudentNotFoundException {
+        for (Student student : students) {
             if (student.getId() == id) {
                 return student;
             }
@@ -52,37 +51,16 @@ public class StudentService {
         long id = students.get(students.size() - 1).getId() + 1;
         Student student = new Student(id, name);
         students.add(student);
-
-        try {
-            OutputStream outputStream = connection.findOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-            writer.write(JSONParser.parse(student));
-            writer.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 
     public void deleteById(long id) throws StudentNotFoundException {
-        for (Student student: students) {
+        for (Student student : students) {
             if (student.getId() == id) {
                 if (!students.remove(student)) {
                     throw new StudentNotFoundException(String.format("Пользователь с данным id: %d не найден.", id));
                 }
-                try {
-                    OutputStream outputStream = connection.findOutputStream();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-                    writer.write(JSONParser.parse(student));
-                    writer.close();
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-
-
             }
         }
-
-
     }
+
 }
