@@ -1,0 +1,15 @@
+Список необходимых тестов:
+1) Connection tests {
+	wrong host,
+	empty password,
+	empty login,
+	empty file,
+	absence of any input parameter
+}
+
+2) Command line parse tests {
+	uncorrect command,
+	uncorrect input,
+	find non-existent student by id,
+	empty list of students
+}
