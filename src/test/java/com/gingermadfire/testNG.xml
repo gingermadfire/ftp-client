@@ -3,7 +3,7 @@
 <suite name="SystemCheckSuite" verbose="2" >
     <test name="SystemCheckTest">
         <classes>
-            <class name="com.gingermadfire.MainTest"/>
+            <class name="com.gingermadfire.TestingMain"/>
             <class name="com.gingermadfire.connection.FTPServerConnectionTest"/>
             <class name="com.gingermadfire.controller.StudentControllerTest"/>
             <class name="com.gingermadfire.parser.JSONParserTest"/>

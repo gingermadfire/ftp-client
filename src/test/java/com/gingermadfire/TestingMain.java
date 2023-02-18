@@ -4,7 +4,7 @@ import com.gingermadfire.exception.NoSuchParameterException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class MainTest {
+public class TestingMain {
 
     @DataProvider(name = "no login")
     public static Object[][] emptyLoginData() {
