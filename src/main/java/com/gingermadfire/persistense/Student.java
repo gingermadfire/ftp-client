@@ -1,4 +1,4 @@
-package Persistense;
+package com.gingermadfire.persistense;
 
 public class Student {
 
@@ -25,6 +25,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Студент по имени: " + name + "с id: " + id;
+        return "Студент по имени: " + name + " с id: " + id;
     }
 }

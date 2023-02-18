@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="SystemCheckSuite" verbose="2" >
+    <test name="SystemCheckTest">
+        <classes>
+            <class name="com.gingermadfire.MainTest"/>
+            <class name="com.gingermadfire.connection.FTPServerConnectionTest"/>
+            <class name="com.gingermadfire.controller.StudentControllerTest"/>
+            <class name="com.gingermadfire.parser.JSONParserTest"/>
+            <class name="com.gingermadfire.service.StudentServiceTest"/>
+        </classes>
+    </test>
+</suite>

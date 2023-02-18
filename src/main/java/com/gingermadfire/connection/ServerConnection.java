@@ -1,4 +1,4 @@
-package Connection;
+package com.gingermadfire.connection;
 
 public interface ServerConnection {
 
